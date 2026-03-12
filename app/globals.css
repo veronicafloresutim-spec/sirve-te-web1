@@ -1,15 +1,14 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+:root {
+  --background: #f5f7fa;
+  --foreground: #171717;
+  --primary: #2f855a;   /* verde */
+  --secondary: #3182ce; /* azul */
+  --danger: #e53e3e;    /* rojo */
+  --font-sans: 'Segoe UI', Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +19,104 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Header y Footer */
+.app-header {
+  background: var(--primary);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-header .logo {
+  width: 50px;
+}
+
+.app-footer {
+  background: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  margin-top: 2rem;
+}
+
+/* Contenedores principales */
+.login-container,
+.admin-container,
+.clientes-container,
+.meseros-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+/* Formularios */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+input, select {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-login {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-login:hover {
+  background: #276749;
+}
+
+.btn-register {
+  background: var(--secondary);
+  color: white;
+}
+
+.btn-register:hover {
+  background: #2b6cb0;
+}
+
+.btn-cancel {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #c53030;
+}
+
+/* Listas */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
 }

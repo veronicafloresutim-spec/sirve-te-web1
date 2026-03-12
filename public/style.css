@@ -1,0 +1,117 @@
+/* Estilos generales */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.login-container,
+.admin-container,
+.clientes-container,
+.meseros-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+/* Logo */
+.logo {
+  width: 100px;
+  margin-bottom: 1rem;
+}
+
+/* Formularios */
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.login-form input,
+.register-form input,
+.register-form select {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Botones */
+button {
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-login {
+  background: #2f855a;
+  color: white;
+}
+
+.btn-login:hover {
+  background: #276749;
+}
+
+.btn-register {
+  background: #3182ce;
+  color: white;
+}
+
+.btn-register:hover {
+  background: #2b6cb0;
+}
+
+.btn-cancel {
+  background: #e53e3e;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #c53030;
+}
+
+/* Listas */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Header y Footer */
+.app-header {
+  background: #2f855a;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-header .logo {
+  width: 50px;
+}
+
+.app-footer {
+  background: #3182ce;
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  margin-top: 2rem;
+}
