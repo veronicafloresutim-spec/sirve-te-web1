@@ -28,7 +28,7 @@ export default function LoginPage() {
     }
   };
 
-  // Registrar usuario
+  // Registrar los usuarios
   const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
