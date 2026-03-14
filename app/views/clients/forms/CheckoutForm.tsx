@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type CartItem = {
   id: string;
@@ -9,21 +10,34 @@ type CartItem = {
   quantity: number;
 };
 
-export default function CheckoutForm({
-  cart,
-  tableId,
-  onConfirm,
-  onCancel,
-}: {
-  cart: CartItem[];
-  tableId: string | null;
-  onConfirm: () => void;
-  onCancel: () => void;
-}) {
+export default function CheckoutForm() {
+  const router = useRouter();
+
+  // Carrito simulado (puedes reemplazar con datos de Supabase)
+  const cart: CartItem[] = [
+    { id: "1", name: "Té Verde", price: 25, quantity: 2 },
+    { id: "2", name: "Café Latte", price: 40, quantity: 1 },
+  ];
+
+  // Mesa seleccionada (puedes obtenerla dinámicamente)
+  const tableId: string | null = "Mesa 5";
+
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
   const calculateTotal = () =>
     cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleConfirm = () => {
+    alert(
+      `Payment confirmed for Table ${tableId} with ${paymentMethod}. Total: $${calculateTotal().toFixed(2)}`
+    );
+    // Aquí podrías insertar en Supabase (pedidos, detallePedido, ventas)
+    router.push("/clients");
+  };
+
+  const handleCancel = () => {
+    router.push("/clients");
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +45,7 @@ export default function CheckoutForm({
       alert("Your cart is empty.");
       return;
     }
-    // TODO: Integrar con Supabase (insertar en pedidos, detallePedido y ventas)
-    alert(
-      `Payment confirmed for Table ${tableId} with ${paymentMethod}. Total: $${calculateTotal().toFixed(
-        2
-      )}`
-    );
-    onConfirm();
+    handleConfirm();
   };
 
   return (
@@ -68,7 +76,7 @@ export default function CheckoutForm({
 
       <div className="form-actions">
         <button type="submit">Confirm Payment</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );

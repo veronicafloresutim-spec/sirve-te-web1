@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type CartItem = {
   id: string;
@@ -9,15 +10,15 @@ type CartItem = {
   quantity: number;
 };
 
-export default function CartForm({
-  initialCart,
-  onCheckout,
-  onCancel,
-}: {
-  initialCart: CartItem[];
-  onCheckout: (cart: CartItem[]) => void;
-  onCancel: () => void;
-}) {
+export default function CartForm() {
+  const router = useRouter();
+
+  // Carrito inicial simulado (puedes reemplazar con datos de Supabase)
+  const initialCart: CartItem[] = [
+    { id: "1", name: "Té Verde", price: 25, quantity: 2 },
+    { id: "2", name: "Café Latte", price: 40, quantity: 1 },
+  ];
+
   const [cart, setCart] = useState<CartItem[]>(initialCart);
 
   const calculateTotal = () =>
@@ -37,13 +38,23 @@ export default function CartForm({
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
+  const handleCheckout = (cart: CartItem[]) => {
+    alert(`Orden confirmada con ${cart.length} productos. Total: $${calculateTotal().toFixed(2)}`);
+    // Aquí podrías guardar en Supabase o redirigir
+    router.push("/clients");
+  };
+
+  const handleCancel = () => {
+    router.push("/clients");
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (cart.length === 0) {
       alert("Your cart is empty.");
       return;
     }
-    onCheckout(cart);
+    handleCheckout(cart);
   };
 
   return (
@@ -78,7 +89,7 @@ export default function CartForm({
 
       <div className="form-actions">
         <button type="submit">Confirm Order</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );
