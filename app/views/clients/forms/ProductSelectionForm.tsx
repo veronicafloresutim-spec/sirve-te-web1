@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id: string;
@@ -10,15 +11,16 @@ type Product = {
   category: string;
 };
 
-export default function ProductSelectionForm({
-  products,
-  onAddToCart,
-  onCancel,
-}: {
-  products: Product[];
-  onAddToCart: (selected: { id: string; name: string; price: number; quantity: number }) => void;
-  onCancel: () => void;
-}) {
+export default function ProductSelectionForm() {
+  const router = useRouter();
+
+  // Lista de productos (puedes reemplazar con datos de Supabase)
+  const products: Product[] = [
+    { id: "1", name: "Té Verde", description: "Refrescante y saludable", price: 25, category: "tea" },
+    { id: "2", name: "Café Latte", description: "Suave y cremoso", price: 40, category: "coffee" },
+    { id: "3", name: "Jugo de Naranja", description: "Natural y fresco", price: 30, category: "juice" },
+  ];
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
 
@@ -28,12 +30,17 @@ export default function ProductSelectionForm({
       alert("Please select a product.");
       return;
     }
-    onAddToCart({
-      id: selectedProduct.id,
-      name: selectedProduct.name,
-      price: selectedProduct.price,
-      quantity,
-    });
+
+    // Aquí podrías guardar en Supabase o en tu flujo de carrito
+    alert(`Agregado al carrito: ${selectedProduct.name} x${quantity}`);
+
+    // Redirigir después de agregar
+    router.push("/clients");
+  };
+
+  const handleCancel = () => {
+    // Redirigir al cancelar
+    router.push("/clients");
   };
 
   return (
@@ -73,7 +80,7 @@ export default function ProductSelectionForm({
 
       <div className="form-actions">
         <button type="submit">Add to Cart</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );

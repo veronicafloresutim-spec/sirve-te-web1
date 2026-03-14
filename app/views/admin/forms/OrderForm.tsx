@@ -23,7 +23,14 @@ export default function OrderForm({ onCancel }: { onCancel: () => void }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]:
+        name === "tableNumber" || name === "total"
+          ? Number(value)
+          : value,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -93,8 +100,12 @@ export default function OrderForm({ onCancel }: { onCancel: () => void }) {
         />
 
         <div className="form-actions">
-          <button type="submit">{editingId ? "Update Order" : "Add Order"}</button>
-          <button type="button" onClick={onCancel}>Close</button>
+          <button type="submit">
+            {editingId ? "Update Order" : "Add Order"}
+          </button>
+          <button type="button" onClick={onCancel}>
+            Close
+          </button>
         </div>
       </form>
 
@@ -106,10 +117,14 @@ export default function OrderForm({ onCancel }: { onCancel: () => void }) {
           {orders.map((order) => (
             <li key={order.id}>
               {order.clientName} - Table {order.tableNumber} - {order.status} - $
-              {order.total.toFixed(2)}
+              {Number(order.total).toFixed(2)}
               <div className="form-actions">
-                <button type="button" onClick={() => handleEdit(order)}>Edit</button>
-                <button type="button" onClick={() => handleDelete(order.id!)}>Delete</button>
+                <button type="button" onClick={() => handleEdit(order)}>
+                  Edit
+                </button>
+                <button type="button" onClick={() => handleDelete(order.id!)}>
+                  Delete
+                </button>
               </div>
             </li>
           ))}

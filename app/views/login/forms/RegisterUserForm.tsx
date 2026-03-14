@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function RegisterUserForm({ onCancel }: { onCancel: () => void }) {
+export default function RegisterUserForm() {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
@@ -12,10 +15,20 @@ export default function RegisterUserForm({ onCancel }: { onCancel: () => void })
     e.preventDefault();
 
     // TODO: Integrar con Supabase (tabla usuarios)
-    // Ejemplo: await supabase.from("usuarios").insert([{ nombre: name, rol: role, email, password }]);
+    // Ejemplo:
+    // await supabase.from("usuarios").insert([
+    //   { nombre: name, rol: role, email, password }
+    // ]);
 
     alert(`User registered: ${name}, role: ${role}`);
-    onCancel(); // volver al login después de registrar
+
+    // Redirigir al login después de registrar
+    router.push("/login");
+  };
+
+  const handleCancel = () => {
+    // Redirigir al login si se cancela
+    router.push("/login");
   };
 
   return (
@@ -52,7 +65,7 @@ export default function RegisterUserForm({ onCancel }: { onCancel: () => void })
 
       <div className="form-actions">
         <button type="submit">Save</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );

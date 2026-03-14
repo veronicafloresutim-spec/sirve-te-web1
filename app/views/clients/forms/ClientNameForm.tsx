@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function ClientNameForm({ onSubmit, onCancel }: { 
-  onSubmit: (name: string) => void; 
-  onCancel: () => void; 
-}) {
+export default function ClientNameForm() {
+  const router = useRouter();
   const [name, setName] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -14,8 +13,17 @@ export default function ClientNameForm({ onSubmit, onCancel }: {
       alert("Please enter your name.");
       return;
     }
-    // Enviar nombre al flujo principal (ej. guardar en tabla usuarios o asociar al pedido)
-    onSubmit(name);
+
+    // Aquí puedes guardar el nombre en Supabase o en tu flujo principal
+    alert(`Nombre recibido: ${name}`);
+
+    // Redirigir después de enviar
+    router.push("/clients");
+  };
+
+  const handleCancel = () => {
+    // Redirigir al cancelar
+    router.push("/clients");
   };
 
   return (
@@ -34,7 +42,7 @@ export default function ClientNameForm({ onSubmit, onCancel }: {
 
       <div className="form-actions">
         <button type="submit">Continue</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );

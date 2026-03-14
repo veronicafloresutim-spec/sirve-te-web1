@@ -21,16 +21,24 @@ export default function ProductForm({ onCancel }: { onCancel: () => void }) {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "price" ? Number(value) : value,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editingId) {
       setProducts((prev) =>
-        prev.map((p) => (p.id === editingId ? { ...formData, id: editingId } : p))
+        prev.map((p) =>
+          p.id === editingId ? { ...formData, id: editingId } : p
+        )
       );
       setEditingId(null);
     } else {
@@ -80,15 +88,23 @@ export default function ProductForm({ onCancel }: { onCancel: () => void }) {
         />
 
         <label>Category:</label>
-        <select name="category" value={formData.category} onChange={handleChange}>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+        >
           <option value="drink">Drink</option>
           <option value="food">Food</option>
           <option value="dessert">Dessert</option>
         </select>
 
         <div className="form-actions">
-          <button type="submit">{editingId ? "Update Product" : "Add Product"}</button>
-          <button type="button" onClick={onCancel}>Close</button>
+          <button type="submit">
+            {editingId ? "Update Product" : "Add Product"}
+          </button>
+          <button type="button" onClick={onCancel}>
+            Close
+          </button>
         </div>
       </form>
 
@@ -99,10 +115,18 @@ export default function ProductForm({ onCancel }: { onCancel: () => void }) {
         <ul>
           {products.map((product) => (
             <li key={product.id}>
-              {product.name} (${product.price.toFixed(2)}) - {product.category}
+              {product.name} (${Number(product.price).toFixed(2)}) -{" "}
+              {product.category}
               <div className="form-actions">
-                <button type="button" onClick={() => handleEdit(product)}>Edit</button>
-                <button type="button" onClick={() => handleDelete(product.id!)}>Delete</button>
+                <button type="button" onClick={() => handleEdit(product)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product.id!)}
+                >
+                  Delete
+                </button>
               </div>
             </li>
           ))}
