@@ -1,52 +1,43 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// app/layout.tsx
+
+import { Metadata } from "next";
 import "./globals.css";
-import "../public/style.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Sirve-Té",
-  description: "Aplicación web integradora para gestión de cafetería",
+  description: "Restaurant management system with roles: client, waiter, admin",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="es">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en">
+      <body>
+        {/* Header */}
         <header className="app-header">
-          <img src="/logo.png" alt="Sirve-Té Logo" className="logo" />
-          <h1>Sirve-Té</h1>
+          <div className="logo-container">
+            <img src="/logo.png" alt="Sirve-Té Logo" className="logo" />
+            <h1>Sirve-Té</h1>
+          </div>
           <nav className="app-nav">
-            <a href="/productos">Productos</a>
-            <a href="/mesas">Mesas</a>
-            <a href="/pedidos">Pedidos</a>
-            <a href="/detallePedido">Detalle Pedido</a>
-            <a href="/clientes">Clientes</a>
-            <a href="/meseros">Meseros</a>
-            <a href="/admin">Admin</a>
-            <a href="/login">Login</a>
+            <a href="/views/home/HomeView">Home</a>
+            <a href="/views/clients/ClientWelcomeView">Client</a>
+            <a href="/views/waiters/WaiterLoginView">Waiter</a>
+            <a href="/views/admin/AdminLoginView">Admin</a>
+            <a href="/views/products/ProductsView">Products</a>
+            <a href="/views/sales/SalesView">Sales</a>
           </nav>
         </header>
 
-        <main>{children}</main>
+        {/* Main content */}
+        <main className="app-main">{children}</main>
 
+        {/* Footer */}
         <footer className="app-footer">
-          <p>© 2026 Sirve-Té | Proyecto Integrador UTIM</p>
+          <p>&copy; {new Date().getFullYear()} Sirve-Té. All rights reserved.</p>
         </footer>
       </body>
     </html>
