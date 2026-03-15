@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id?: string;
@@ -10,7 +11,9 @@ type Product = {
   category: string;
 };
 
-export default function ProductForm({ onCancel }: { onCancel: () => void }) {
+export default function ProductForm() {
+  const router = useRouter();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [formData, setFormData] = useState<Product>({
     name: "",
@@ -55,6 +58,10 @@ export default function ProductForm({ onCancel }: { onCancel: () => void }) {
 
   const handleDelete = (id: string) => {
     setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const handleCancel = () => {
+    router.push("/admin"); // redirige al panel de administración
   };
 
   return (
@@ -102,7 +109,7 @@ export default function ProductForm({ onCancel }: { onCancel: () => void }) {
           <button type="submit">
             {editingId ? "Update Product" : "Add Product"}
           </button>
-          <button type="button" onClick={onCancel}>
+          <button type="button" onClick={handleCancel}>
             Close
           </button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Table = {
   id?: string;
@@ -8,7 +9,9 @@ type Table = {
   status: string;
 };
 
-export default function TableForm({ onCancel }: { onCancel: () => void }) {
+export default function TableForm() {
+  const router = useRouter();
+
   const [tables, setTables] = useState<Table[]>([]);
   const [formData, setFormData] = useState<Table>({
     number: 1,
@@ -19,7 +22,11 @@ export default function TableForm({ onCancel }: { onCancel: () => void }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "number" ? Number(value) : value,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,6 +54,10 @@ export default function TableForm({ onCancel }: { onCancel: () => void }) {
     setTables((prev) => prev.filter((t) => t.id !== id));
   };
 
+  const handleCancel = () => {
+    router.push("/admin"); // redirige al panel de administración
+  };
+
   return (
     <div className="crud-form">
       <h3>Manage Tables</h3>
@@ -70,7 +81,7 @@ export default function TableForm({ onCancel }: { onCancel: () => void }) {
 
         <div className="form-actions">
           <button type="submit">{editingId ? "Update Table" : "Add Table"}</button>
-          <button type="button" onClick={onCancel}>Close</button>
+          <button type="button" onClick={handleCancel}>Close</button>
         </div>
       </form>
 

@@ -1,19 +1,26 @@
 "use client";
 
-export default function FreeTableForm({
-  tableId,
-  onConfirm,
-  onCancel,
-}: {
-  tableId: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-}) {
+import { useRouter } from "next/navigation";
+
+export default function FreeTableForm() {
+  const router = useRouter();
+
+  // Mesa simulada (puedes reemplazar con datos dinámicos o Supabase)
+  const tableId: string = "Mesa 12";
+
+  const handleConfirm = () => {
+    alert(`Table ${tableId} has been freed.`);
+    // Aquí podrías actualizar Supabase para marcar la mesa como "available"
+    router.push("/waiters");
+  };
+
+  const handleCancel = () => {
+    router.push("/waiters");
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrar con Supabase (actualizar estado de mesa a "available")
-    alert(`Table ${tableId} has been freed.`);
-    onConfirm();
+    handleConfirm();
   };
 
   return (
@@ -23,7 +30,7 @@ export default function FreeTableForm({
 
       <div className="form-actions">
         <button type="submit">Yes, Free Table</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );

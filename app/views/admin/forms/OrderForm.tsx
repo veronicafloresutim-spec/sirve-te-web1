@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Order = {
   id?: string;
@@ -10,7 +11,9 @@ type Order = {
   total: number;
 };
 
-export default function OrderForm({ onCancel }: { onCancel: () => void }) {
+export default function OrderForm() {
+  const router = useRouter();
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [formData, setFormData] = useState<Order>({
     clientName: "",
@@ -58,6 +61,10 @@ export default function OrderForm({ onCancel }: { onCancel: () => void }) {
     setOrders((prev) => prev.filter((o) => o.id !== id));
   };
 
+  const handleCancel = () => {
+    router.push("/admin"); // redirige al panel de administración
+  };
+
   return (
     <div className="crud-form">
       <h3>Manage Orders</h3>
@@ -103,7 +110,7 @@ export default function OrderForm({ onCancel }: { onCancel: () => void }) {
           <button type="submit">
             {editingId ? "Update Order" : "Add Order"}
           </button>
-          <button type="button" onClick={onCancel}>
+          <button type="button" onClick={handleCancel}>
             Close
           </button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type User = {
   id?: string;
@@ -10,7 +11,9 @@ type User = {
   password: string;
 };
 
-export default function UserForm({ onCancel }: { onCancel: () => void }) {
+export default function UserForm() {
+  const router = useRouter();
+
   const [users, setUsers] = useState<User[]>([]);
   const [formData, setFormData] = useState<User>({
     name: "",
@@ -20,7 +23,9 @@ export default function UserForm({ onCancel }: { onCancel: () => void }) {
   });
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -45,6 +50,10 @@ export default function UserForm({ onCancel }: { onCancel: () => void }) {
 
   const handleDelete = (id: string) => {
     setUsers((prev) => prev.filter((u) => u.id !== id));
+  };
+
+  const handleCancel = () => {
+    router.push("/admin"); // redirige al panel de administración
   };
 
   return (
@@ -86,7 +95,7 @@ export default function UserForm({ onCancel }: { onCancel: () => void }) {
 
         <div className="form-actions">
           <button type="submit">{editingId ? "Update User" : "Add User"}</button>
-          <button type="button" onClick={onCancel}>Close</button>
+          <button type="button" onClick={handleCancel}>Close</button>
         </div>
       </form>
 
