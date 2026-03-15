@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Sale = {
   id?: string;
@@ -11,7 +12,9 @@ type Sale = {
   date: string;
 };
 
-export default function SaleForm({ onCancel }: { onCancel: () => void }) {
+export default function SaleForm() {
+  const router = useRouter();
+
   const [sales, setSales] = useState<Sale[]>([]);
   const [formData, setFormData] = useState<Sale>({
     orderId: "",
@@ -25,7 +28,14 @@ export default function SaleForm({ onCancel }: { onCancel: () => void }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]:
+        name === "tableNumber" || name === "amount"
+          ? Number(value)
+          : value,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,6 +67,10 @@ export default function SaleForm({ onCancel }: { onCancel: () => void }) {
 
   const handleDelete = (id: string) => {
     setSales((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  const handleCancel = () => {
+    router.push("/admin"); // redirige al panel de administración
   };
 
   return (
@@ -114,7 +128,7 @@ export default function SaleForm({ onCancel }: { onCancel: () => void }) {
 
         <div className="form-actions">
           <button type="submit">{editingId ? "Update Sale" : "Add Sale"}</button>
-          <button type="button" onClick={onCancel}>Close</button>
+          <button type="button" onClick={handleCancel}>Close</button>
         </div>
       </form>
 
